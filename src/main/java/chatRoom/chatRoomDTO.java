@@ -3,7 +3,6 @@ package chatRoom;
 public class chatRoomDTO {
     private int chatRoom_id;
     private String chatRoomName;
-    private int u_id;
     private String userId;
     private String nickName;
     private boolean isNoticeRead;
@@ -19,12 +18,6 @@ public class chatRoomDTO {
     }
     public void setChatRoomName(String chatRoomName) {
         this.chatRoomName = chatRoomName;
-    }
-    public int getU_id() {
-        return u_id;
-    }
-    public void setU_id(int u_id) {
-        this.u_id = u_id;
     }
     public String getUserId() {
         return userId;

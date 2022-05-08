@@ -67,7 +67,6 @@ public class userDAO {
         int status = -1;
         String query =
                 "SELECT " +
-                        "`user`.`u_id`," +
                         "`user`.`userId`," +
                         "`user`.`userPassword`," +
                         "`user`.`nickName`," +
@@ -155,7 +154,6 @@ public class userDAO {
         String query =
                 "SELECT" +
                         "`friendInfo`.`f_id`," +
-                        "`friendInfo`.`u_id`," +
                         "`friendInfo`.`userId`," +
                         "`friendInfo`.`friendId`" +
                         "FROM `DB_ppick`.`friendInfo` WHERE userId = ?";
@@ -170,7 +168,6 @@ public class userDAO {
                 do {
                     friendDTO friend = new friendDTO();
                     friend.setF_id(rs.getInt("f_id"));
-                    friend.setU_id(rs.getInt("u_id"));
                     friend.setUserId(rs.getString("userId"));
                     friend.setFriendId(rs.getString("friendId"));
 
