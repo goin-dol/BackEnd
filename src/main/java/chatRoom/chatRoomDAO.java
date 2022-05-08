@@ -110,7 +110,7 @@ public class chatRoomDAO {
     //현재 채팅방안에 유저목록
     public List<userDTO> getUserList(int chatRoom_id) {
         List<userDTO> userList = null;
-        String query =
+        Sdtring query =
                 "SELECT " +
                         "`chatRoom`.`u_id`," +
                         "`chatRoom`.`userId`," +
