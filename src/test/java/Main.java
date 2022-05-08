@@ -4,9 +4,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String userId = "abc";
-        String userPassword = "abc";
-        String nickName="CP6";
+        String userId = "snowooden";
+        String userPassword = "1234";
+        String nickName="JungWoo";
 
         userDAO userdao = userDAO.getInstance();
 
