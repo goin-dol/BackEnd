@@ -24,6 +24,7 @@ public class chatRoomTest {
         userNick.add("sup");
         userNick.add("JungWoo");
 
+        //makeRoom(chatRoomName, userId, nickName);
         inviteRoom(chatRoomName, userIdList, userNick);
 
     }
