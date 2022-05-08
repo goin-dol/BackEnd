@@ -3,7 +3,7 @@ package friend;
 public class friendDTO {
 
     private int f_id;
-    private String userId;
+    private String nickName;
     private String friendId;
 
     public int getF_id() {
@@ -12,12 +12,8 @@ public class friendDTO {
     public void setF_id(int f_id) {
         this.f_id = f_id;
     }
-    public String getUserId() {
-        return userId;
-    }
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    public String getNickName() {return nickName;}
+    public void setNickName(String nickName) {this.nickName = nickName;}
     public String getFriendId() {
         return friendId;
     }
