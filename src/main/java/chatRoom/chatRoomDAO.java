@@ -27,12 +27,11 @@ public class chatRoomDAO {
 
     //최초 방 생성시 자기 자신 아이디 정보 입력
     //여러명 초대시 해당 매개변수 리스트에 담아서 반복 실행
-    public void inviteFriend(String chatRoomName, int u_id, String userId, String nickName) {
+    public void inviteFriend(String chatRoomName, String userId, String nickName) {
         String query =
                 "INSERT INTO `DB_ppick`.`chatRoom`" +
                         "(" +
                         "`chatRoomName`," +
-                        "`u_id`," +
                         "`userId`," +
                         "`nickName`," +
                         "`isNoticeRead`" +
@@ -42,17 +41,15 @@ public class chatRoomDAO {
                         "?," +
                         "?," +
                         "?," +
-                        "?," +
                         "?" +
                         ")";
         try {
             conn = DB.getConnection();
             pstmt = conn.prepareStatement(query);
             pstmt.setString(1, chatRoomName);
-            pstmt.setInt(2, u_id);
-            pstmt.setString(3, userId);
-            pstmt.setString(4, nickName);
-            pstmt.setBoolean(5, false);
+            pstmt.setString(2, userId);
+            pstmt.setString(3, nickName);
+            pstmt.setBoolean(4, false);
 
             pstmt.executeUpdate();
         } catch(Exception e) {
@@ -70,7 +67,6 @@ public class chatRoomDAO {
                 "SELECT " +
                         "`chatRoom`.`chatRoom_id`," +
                         "`chatRoom`.`chatRoomName`," +
-                        "`chatRoom`.`u_id`," +
                         "`chatRoom`.`userId`," +
                         "`chatRoom`.`nickName`," +
                         "`chatRoom`.`isNoticeRead`" +
@@ -86,7 +82,6 @@ public class chatRoomDAO {
                     chatRoomDTO chatRoom = new chatRoomDTO();
                     chatRoom.setChatRoom_id(rs.getInt("chatRoom_id"));
                     chatRoom.setChatRoomName(rs.getString("chatRoomName"));
-                    chatRoom.setU_id(rs.getInt("u_id"));
                     chatRoom.setUserId(rs.getString(rs.getString("userId")));
                     chatRoom.setNickName(rs.getString("nickName"));
                     chatRoom.setNoticeRead(rs.getBoolean("isNoticeRead"));
@@ -112,7 +107,6 @@ public class chatRoomDAO {
         List<userDTO> userList = null;
         String query =
                 "SELECT " +
-                        "`chatRoom`.`u_id`," +
                         "`chatRoom`.`userId`," +
                         "`chatRoom`.`nickName`," +
                         "FROM `DB_ppick`.`chatRoom` WHERE chatRoom_id = ?";
@@ -125,7 +119,6 @@ public class chatRoomDAO {
                 userList = new ArrayList<userDTO>();
                 do {
                     userDTO user = new userDTO();
-                    user.setU_id(rs.getInt("u_id"));
                     user.setUserId(rs.getString("userId"));
                     user.setNickName(rs.getString("nickName"));
                     userList.add(user);

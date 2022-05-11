@@ -3,10 +3,7 @@ package user;
 import DB.DBDAO;
 import friend.friendDTO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +51,9 @@ public class userDAO {
             pstmt.setString(5, "");
 
             pstmt.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+            System.out.println("중복된 아이디입니다.");
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
@@ -63,19 +63,22 @@ public class userDAO {
         }
     }
 
-    public int login(String userId, String userPassword) {
+    public int login(String userId, String userPassword, String ip) {
         int status = -1;
         String query =
                 "SELECT " +
-                        "`user`.`u_id`," +
                         "`user`.`userId`," +
                         "`user`.`userPassword`," +
                         "`user`.`nickName`," +
                         "`user`.`status`," +
                         "`user`.`ip`" +
                         "FROM `DB_ppick`.`user` WHERE userId = ? AND userPassword = ?";
-
-
+        String update =
+                "UPDATE `DB_ppick`.`user`" +
+                        "SET" +
+                        "`status` = true," +
+                        "`ip` = ?" +
+                        "WHERE `userId` = ?";
         try {
             conn = DB.getConnection();
             pstmt = conn.prepareStatement(query);
@@ -88,6 +91,11 @@ public class userDAO {
             else
                 status = 0;
 
+            pstmt = conn.prepareStatement(update);
+            pstmt.setString(1, ip);
+            pstmt.setString(2, userId);
+            pstmt.executeUpdate();
+
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
@@ -96,6 +104,27 @@ public class userDAO {
             if(conn != null) try {conn.close();}catch(SQLException ex) {}
         }
         return status;
+    }
+
+    public void logout(String userId) {
+        String query =
+                "UPDATE `DB_ppick`.`user`" +
+                        "SET" +
+                        "`status` = false," +
+                        "`ip` = '0.0.0.0'" +
+                        "WHERE `userId` = ?";
+        try {
+            conn = DB.getConnection();
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, userId);
+            pstmt.executeUpdate();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(rs != null) try {rs.close();}catch(SQLException ex ) {}
+            if(pstmt != null) try {pstmt.close();}catch(SQLException ex) {}
+            if(conn != null) try {conn.close();}catch(SQLException ex) {}
+        }
     }
 
 
@@ -125,7 +154,6 @@ public class userDAO {
         String query =
                 "SELECT" +
                         "`friendInfo`.`f_id`," +
-                        "`friendInfo`.`u_id`," +
                         "`friendInfo`.`userId`," +
                         "`friendInfo`.`friendId`" +
                         "FROM `DB_ppick`.`friendInfo` WHERE userId = ?";
@@ -140,7 +168,6 @@ public class userDAO {
                 do {
                     friendDTO friend = new friendDTO();
                     friend.setF_id(rs.getInt("f_id"));
-                    friend.setU_id(rs.getInt("u_id"));
                     friend.setUserId(rs.getString("userId"));
                     friend.setFriendId(rs.getString("friendId"));
 
