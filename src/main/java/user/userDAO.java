@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class userDAO {
-    private static userDAO instance = null;
-
-    private static DBDAO DB = DBDAO.getInstance();
 
     private Connection conn = null;
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
+    private static userDAO instance = null;
+
+    private static DBDAO DB = DBDAO.getInstance();
 
     //싱글톤 패턴(객체를 단 1개만 생성)
     public static userDAO getInstance() {

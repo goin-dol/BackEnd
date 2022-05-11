@@ -23,26 +23,23 @@ public class friendDAO {
         return instance;
     }
 
-    public void InviteFriend(int u_id,String userId,String friendId){
+    public void InviteFriend(String userId,String friendId){
         String query =
                 "INSERT INTO `DB_ppick`.`friendInfo`" +
                         "(" +
-                        "`u_id`," +
                         "`userId`," +
                         "`friendId`" +
                         ")" +
                         "VALUES" +
                         "(" +
                         "?," +
-                        "?," +
                         "?" +
                         ")";
         try {
             conn = DB.getConnection();
             pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, u_id);
-            pstmt.setString(2, userId);
-            pstmt.setString(3, friendId);
+            pstmt.setString(1, userId);
+            pstmt.setString(2, friendId);
             pstmt.executeUpdate();
         } catch(Exception e) {
             e.printStackTrace();
